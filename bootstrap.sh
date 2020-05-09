@@ -24,7 +24,7 @@ else:
 __SCRIPT__
 }
 
-sudo yum -y install python36-pip htop tmux git
+sudo yum -y install python36-pip htop tmux git iotop
 
 if check_if_master
 then
