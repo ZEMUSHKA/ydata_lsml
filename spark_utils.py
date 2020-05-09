@@ -29,7 +29,6 @@ def get_spark_conf(total_memory_per_core=7800, cores_per_executor=4,
                    additional_conf={}):
     """
     spark.executor.memory: jvm heap
-    spark.python.worker.memory: python
     spark.yarn.executor.memoryOverhead: jvm offheap + python
     total per yarn container: jvm heap + jvm offheap + python
     """
