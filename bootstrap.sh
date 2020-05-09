@@ -38,6 +38,7 @@ then
   sudo /usr/local/bin/jupyter nbextension enable --py nbdime --system
   echo "jupyter notebook --no-browser" > /home/hadoop/start_jupyter.sh
   sudo chmod +x /home/hadoop/start_jupyter.sh
+  wget https://raw.githubusercontent.com/ZEMUSHKA/ydata_lsml/master/spark_utils.py -O /home/hadoop/spark_utils.py
 fi
 
 sudo pip-3.6 install sklearn numpy scipy pandas matplotlib ipywidgets tqdm
