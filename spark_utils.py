@@ -22,3 +22,36 @@ def print_ui_links():
     print("NameNode: http://{}:50070".format(dns_name))
     print("YARN: http://{}:8088".format(dns_name))
     print("Spark UI: http://{}:20888/proxy/{}".format(dns_name, app_id))
+
+
+def get_spark_conf(total_memory_per_core=7800, cores_per_executor=4,
+                   parallelism=500, add_python_memory=True,
+                   additional_conf={}):
+    """
+    spark.executor.memory: jvm heap
+    spark.python.worker.memory: python
+    spark.yarn.executor.memoryOverhead: jvm offheap + python
+    total per yarn container: jvm heap + jvm offheap + python
+    """
+    import pyspark
+    offheap_memory_per_core = max(1024, int(total_memory_per_core * 0.07))
+    python_memory_per_core = 0
+    if add_python_memory:
+        # python eats ~ the same amount as jvm heap
+        python_memory_per_core = (total_memory_per_core - offheap_memory_per_core) // 2
+    heap_memory_per_core = total_memory_per_core - offheap_memory_per_core - python_memory_per_core
+    conf = (
+        pyspark.SparkConf()
+        .set("spark.executor.memory", "{0}m".format(heap_memory_per_core * cores_per_executor))
+        .set("spark.yarn.executor.memoryOverheadFactor", "0")
+        .set("spark.yarn.executor.memoryOverhead", (offheap_memory_per_core + python_memory_per_core) * cores_per_executor)
+        .set("spark.python.worker.memory", "{0}m".format(int(python_memory_per_core * 0.8)))
+        .set("spark.executor.cores", cores_per_executor)
+        .set("spark.default.parallelism", parallelism)
+        .set("spark.submit.deployMode", "client")
+        .set("spark.driver.memory", "32g")
+        .set("spark.driver.maxResultSize", "24g")
+    )
+    for k, v in additional_conf.items():
+        conf = conf.set(k, v)
+    return conf
