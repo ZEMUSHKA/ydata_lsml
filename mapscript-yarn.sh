@@ -26,7 +26,7 @@ hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar \
         -Dmapreduce.job.maps=16 \
         -Dmapreduce.input.fileinputformat.split.minsize=10000000000 \
         -Dmapred.child.java.opts="-Xmx100m" \
-        -Dmapred.task.timeout=600000000 \
+        -Dmapreduce.task.timeout=600000000 \
         -Dmapreduce.map.memory.mb=4000 \
         -input $in_directory \
         -output $out_directory \
