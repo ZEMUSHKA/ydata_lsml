@@ -38,13 +38,12 @@ then
   sudo /usr/local/bin/jupyter nbextension enable --py nbdime --system
   echo "jupyter notebook --no-browser" > /home/hadoop/start_jupyter.sh
   sudo chmod +x /home/hadoop/start_jupyter.sh
-  wget https://raw.githubusercontent.com/ZEMUSHKA/ydata_lsml/master/spark_utils.py -O /home/hadoop/spark_utils.py
-  wget https://raw.githubusercontent.com/ZEMUSHKA/ydata_lsml/master/spark-hw1.ipynb -O /home/hadoop/spark-hw1.ipynb
-  wget https://raw.githubusercontent.com/ZEMUSHKA/ydata_lsml/master/spark-hw2.ipynb -O /home/hadoop/spark-hw2.ipynb
+  git clone https://github.com/ZEMUSHKA/ydata_lsml.git /home/hadoop/ydata_lsml
+  sudo cp /home/hadoop/ydata_lsml/libboost_program_options.so.1.73.0 /usr/lib64/
 fi
 
 sudo pip-3.6 install sklearn numpy scipy pandas matplotlib ipywidgets tqdm
 
 # vw
-wget http://finance.yendor.com/ML/VW/Binaries/vw-8.20190624 -O /home/hadoop/vw
-sudo chmod +x /home/hadoop/vw
+# wget http://finance.yendor.com/ML/VW/Binaries/vw-8.20190624 -O /home/hadoop/vw
+# sudo chmod +x /home/hadoop/vw
