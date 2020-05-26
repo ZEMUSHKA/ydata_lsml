@@ -44,7 +44,6 @@ gdcmd="./vw -b 24 -q ad
         --cache_file temp.cache
         --span_server $submit_host
 	      --progress 100000
-	      --l2 0.01
         --loss_function=logistic"
 
 # BFGS step
@@ -63,7 +62,6 @@ bfgscmd="./vw
         -f bfgs.vwmodel
         -i sgd.vwmodel
 	      --progress 100000
-	      --l2 0.01
         --loss_function=logistic"
 
 if [ "$mapper" == '000000' ]
