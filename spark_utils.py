@@ -14,6 +14,10 @@ def get_free_mem_mb():
     return 1024  # safe default
 
 
+def copy_ssh_key_hint():
+    return "scp -i ~/andrey.pem ~/andrey.pem hadoop@{}:~".format(get_dns_name())
+
+
 def get_dns_name():
     return json.loads(subprocess.check_output(
         "aws ec2 describe-instances --instance-ids $(ec2-metadata -i | cut -d' ' -f2) --query 'Reservations[].Instances[].PublicDnsName'",
