@@ -3,6 +3,15 @@
 import subprocess
 import json
 import re
+import math
+
+
+def get_free_mem_mb():
+    with open('/proc/meminfo') as file:
+        for line in file:
+            if 'MemAvailable' in line:
+                return int(line.split()[1]) // 1024
+    return 1024  # safe default
 
 
 def get_dns_name():
@@ -39,6 +48,7 @@ def get_spark_conf(total_memory_per_core=7800, cores_per_executor=4,
         # python eats ~ the same amount as jvm heap
         python_memory_per_core = (total_memory_per_core - offheap_memory_per_core) // 2
     heap_memory_per_core = total_memory_per_core - offheap_memory_per_core - python_memory_per_core
+    free_mem_mb = get_free_mem_mb()
     conf = (
         pyspark.SparkConf()
         .set("spark.executor.memory", "{0}m".format(heap_memory_per_core * cores_per_executor))
@@ -48,8 +58,8 @@ def get_spark_conf(total_memory_per_core=7800, cores_per_executor=4,
         .set("spark.executor.cores", cores_per_executor)
         .set("spark.default.parallelism", parallelism)
         .set("spark.submit.deployMode", "client")
-        .set("spark.driver.memory", "32g")
-        .set("spark.driver.maxResultSize", "24g")
+        .set("spark.driver.memory", "{}m".format(math.ceil(free_mem_mb * 0.5)))
+        .set("spark.driver.maxResultSize", "{}m".format(math.ceil(free_mem_mb * 0.4)))
     )
     for k, v in additional_conf.items():
         conf = conf.set(k, v)
