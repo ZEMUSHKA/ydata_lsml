@@ -26,7 +26,10 @@ def get_dns_name():
 
 
 def get_app_id():
-    return re.search(".*(application[_0-9]+).*", str(subprocess.check_output('yarn application -list', shell=True))).groups()[0]
+    try:
+        return re.search(".*(application[_0-9]+).*", str(subprocess.check_output('yarn application -list', shell=True))).groups()[0]
+    except:
+        return None
 
 
 def print_ui_links():
@@ -34,7 +37,8 @@ def print_ui_links():
     app_id = get_app_id()
     print("NameNode: http://{}:50070".format(dns_name))
     print("YARN: http://{}:8088".format(dns_name))
-    print("Spark UI: http://{}:20888/proxy/{}".format(dns_name, app_id))
+    if app_id is not None:
+        print("Spark UI: http://{}:20888/proxy/{}".format(dns_name, app_id))
 
 
 def get_spark_conf(total_memory_per_core=7800, cores_per_executor=4,
