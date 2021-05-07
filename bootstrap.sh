@@ -43,6 +43,8 @@ then
   echo "Host *" > /home/hadoop/.ssh/config
   echo -e "\tStrictHostKeyChecking no" >> /home/hadoop/.ssh/config
   echo -e "\tUserKnownHostsFile /dev/null" >> /home/hadoop/.ssh/config
+  chmod 600 /home/hadoop/.ssh/config
+  chown hadoop /home/hadoop/.ssh/config
 fi
 
 sudo pip-3.6 install sklearn numpy scipy pandas matplotlib ipywidgets tqdm
