@@ -40,6 +40,9 @@ then
   sudo chmod +x /home/hadoop/start_jupyter.sh
   git clone https://github.com/ZEMUSHKA/ydata_lsml.git /home/hadoop/ydata_lsml
   sudo cp /home/hadoop/ydata_lsml/libboost_program_options.so.1.73.0 /usr/lib64/
+  echo "Host *" > ~/.ssh/config
+  echo -e "\tStrictHostKeyChecking no" >> ~/.ssh/config
+  echo -e "\tUserKnownHostsFile /dev/null" >> ~/.ssh/config
 fi
 
 sudo pip-3.6 install sklearn numpy scipy pandas matplotlib ipywidgets tqdm
