@@ -24,7 +24,7 @@ else:
 __SCRIPT__
 }
 
-sudo yum -y install python36-pip htop tmux git iotop
+sudo yum -y install python36-pip htop tmux git iotop libjpeg-devel
 
 if check_if_master
 then
@@ -38,8 +38,8 @@ then
   sudo /usr/local/bin/jupyter nbextension enable --py nbdime --system
   echo "jupyter notebook --no-browser" > /home/hadoop/start_jupyter.sh
   sudo chmod +x /home/hadoop/start_jupyter.sh
-  git clone https://github.com/ZEMUSHKA/ydata_lsml.git /home/hadoop/ydata_lsml
-  sudo cp /home/hadoop/ydata_lsml/libboost_program_options.so.1.73.0 /usr/lib64/
+  # git clone https://github.com/ZEMUSHKA/ydata_lsml.git /home/hadoop/ydata_lsml
+  # sudo cp /home/hadoop/ydata_lsml/libboost_program_options.so.1.73.0 /usr/lib64/
 fi
 
 sudo pip-3.6 install sklearn numpy scipy pandas matplotlib ipywidgets tqdm
